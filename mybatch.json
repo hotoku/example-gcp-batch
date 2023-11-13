@@ -1,0 +1,45 @@
+{
+  "taskGroups": [
+    {
+      "taskSpec": {
+        "runnables": [
+          {
+            "container": {
+              "imageUri": "asia-northeast1-docker.pkg.dev/wsk-product-dev/hotoku-batch/hotoku-batch:latest",
+              "commands": [
+                "--start-date",
+                "2022-01-01",
+                "--end-date",
+                "2022-01-31"
+              ]
+            }
+          }
+        ],
+        "computeResource": {
+          "cpuMilli": 2000,
+          "memoryMib": 16
+        },
+        "maxRetryCount": 0,
+        "maxRunDuration": "3600s"
+      },
+      "taskCount": 4,
+      "parallelism": 2
+    }
+  ],
+  "allocationPolicy": {
+    "instances": [
+      {
+        "policy": {
+          "machineType": "e2-standard-4"
+        }
+      }
+    ]
+  },
+  "labels": {
+    "department": "finance",
+    "env": "testing"
+  },
+  "logsPolicy": {
+    "destination": "CLOUD_LOGGING"
+  }
+}
