@@ -3,12 +3,12 @@
 
 
 GCP_REGION := asia-northeast1
-SERVICE_NAME := hotoku-batch
 JOB_ID := example-container-job-$(shell date +%Y%m%d%H%M%S)
+SERVICE_NAME := hotoku-batch
+REPO_NAME := hotoku-batch
+IMAGE_NAME := hotoku-batch
 
 
-REPO_NAME := $(SERVICE_NAME)
-IMAGE_NAME := $(SERVICE_NAME)
 IMAGE_PATH = $(GCP_REGION)-docker.pkg.dev/$(PROJECT_ID)/$(REPO_NAME)/$(IMAGE_NAME)
 
 
@@ -20,11 +20,21 @@ submit:
 
 
 .PHONY: push
-push: image
+push: image create-repository
 	docker tag $(IMAGE_NAME):$(IMAGE_TAG) $(IMAGE_PATH):$(IMAGE_TAG)
 	docker tag $(IMAGE_NAME):$(IMAGE_TAG) $(IMAGE_PATH):latest
 	docker push $(IMAGE_PATH):$(IMAGE_TAG)
 	docker push $(IMAGE_PATH):latest
+
+
+.PHONY: create-repository
+create-repository:
+	if ! gcloud artifacts repositories describe --location=$(GCP_REGION) $(REPO_NAME) > /dev/null 2>&1; then \
+		gcloud artifacts repositories create $(REPO_NAME) \
+			--repository-format=docker \
+			--location=$(GCP_REGION) \
+			--description="Repository for $(IMAGE_NAME) images."; \
+	fi
 
 
 .PHONY: image
