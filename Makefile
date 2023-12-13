@@ -16,7 +16,8 @@ IMAGE_PATH = $(GCP_REGION)-docker.pkg.dev/$(PROJECT_ID)/$(REPO_NAME)/$(IMAGE_NAM
 submit:
 	gcloud batch jobs submit $(JOB_ID) \
 		--location $(GCP_REGION) \
-		--config mybatch.json
+		--config mybatch.json \
+		--substitutions=_IMAGE_PATH=$(IMAGE_PATH):$(IMAGE_TAG)
 
 
 .PHONY: push

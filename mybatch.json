@@ -5,7 +5,7 @@
         "runnables": [
           {
             "container": {
-              "imageUri": "asia-northeast1-docker.pkg.dev/wsk-product-dev/hotoku-batch/hotoku-batch:latest",
+              "imageUri": "asia-northeast1-docker.pkg.dev/wsk-ds-works/hotoku-batch/hotoku-batch:latest",
               "commands": [
                 "--start-date",
                 "2022-01-01",
